@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>ScholarsNook — Sign Up</title>
+	<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<main class="container">
+<header class="brand">
+	<h1>ScholarsNook</h1>
+	<p class="tag">Start tracking your points</p>
+</header>
+
+<section class="card" id="signup-card">
+	<h2>Create Your Account</h2>
+
+	<form action="register.php" method="POST">
+		<div class="input-row">
+			<label for="fullName">Full name</label>
+			<input name="fullName" id="fullName" required />
+		</div>
+
+		<div class="input-row">
+			<label for="department">Department / College</label>
+			<input name="department" id="department" required />
+		</div>
+
+		<div class="input-row">
+			<label for="username">Username</label>
+			<input name="reg_username" id="username" type="text" required />
+		</div>
+		
+		<div class="input-row">
+			<label for="signupPassword">Choose a password</label>
+			<input name="signupPassword" id="signupPassword" type="password" required />
+		</div>
+
+		<div class="actions">
+			<button type="submit">Create account</button>
+			<a href="index.html" class="alt-btn">Back to Login</a>
+		</div>
+	</form>
+</section>
+
+</main>
+</body>
+</html>
