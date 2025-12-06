@@ -43,8 +43,7 @@
 </main>
 
 <script>
-// Google Sheets API append (no OAuth needed with API-KEY + unrestricted sheet)
-const SHEET_ID = '1BxiY6lRCKikGYLNAc0g8i9z5z8VfG7lKZc6PQrN9xqw';   // ← your sheet ID
+const SHEET_ID = '1BxiY6lRCKikGYLNAc0g8i9z5z8VfG7lKZc6PQrN9xqw';   // ← edit-url ID
 const API_KEY  = 'AIzaSyDJ0zMobyM-fnhjaPnNvhVmWRqU-jES5Hs';        // ← your API key
 const ENDPOINT = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Sheet1!A:E/append?valueInputOption=RAW&key=${API_KEY}`;
 
@@ -58,23 +57,32 @@ document.getElementById('signupForm').addEventListener('submit', async e => {
     f.signupPassword.value.trim(),
     parseInt(f.initPoints.value) || 0
   ];
-  const resp = await fetch(ENDPOINT, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify({ values: [body] })
-  });
-  if (resp.ok) {
-    document.getElementById('msg').textContent = 'Registration successful! Redirecting…';
-    setTimeout(() => location.href = 'login.html', 1500);
-  } else {
-    const err = await resp.json();
+
+  try {
+    const resp = await fetch(ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ values: [body] })
+    });
+    if (resp.ok) {
+      document.getElementById('msg').style.color = 'green';
+      document.getElementById('msg').textContent = 'Registration successful! Redirecting…';
+      setTimeout(() => location.href = 'login.html', 1500);
+    } else {
+      const err = await resp.json();
+      document.getElementById('msg').style.color = 'red';
+      document.getElementById('msg').textContent = err.error.message || 'Failed to register.';
+    }
+  } catch (e) {
     document.getElementById('msg').style.color = 'red';
-    document.getElementById('msg').textContent = err.error.message || 'Failed to register.';
+    document.getElementById('msg').textContent = 'Network error – check console.';
+    console.error(e);
   }
 });
 </script>
 </body>
 </html>
+
 
 
 
