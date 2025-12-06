@@ -33,11 +33,9 @@
 </main>
 
 <script>
-/* ----------  CONFIG  ---------- */
 const SHEET_ID = '1BxiY6lRCKikGYLNAc0g8i9z5z8VfG7lKZc6PQrN9xqw'; // ← your sheet ID
 const CSV_URL  = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/pub?output=csv`;
 
-/* ----------  LOGIN LOGIC  ---------- */
 document.getElementById('doLogin').addEventListener('click', async () => {
   const user = document.getElementById('loginUsername').value.trim();
   const pass = document.getElementById('loginPassword').value.trim();
@@ -46,7 +44,7 @@ document.getElementById('doLogin').addEventListener('click', async () => {
   try {
     const res  = await fetch(CSV_URL);
     const txt  = await res.text();
-    const rows = txt.split('\n').slice(1);          // skip header row
+    const rows = txt.split('\n').slice(1);
     let ok = false;
     for (const raw of rows) {
       const [,,u,p] = raw.split(',');
@@ -65,3 +63,4 @@ document.getElementById('doLogin').addEventListener('click', async () => {
 </script>
 </body>
 </html>
+
