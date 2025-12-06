@@ -26,7 +26,7 @@
         <input name="login_password" id="loginPassword" type="password" required />
       </div>
       <div class="actions">
-        <button type="submit">Submit</button>
+        <button type="button" id="doLogin">Submit</button>
         <a href="signup.html">New here? Sign up</a>
       </div>
     </form>
@@ -39,7 +39,7 @@
 const SHEET_ID   = '1BxiY6lRCKikGYLNAc0g8i9z5z8VfG7lKZc6PQrN9xqw';   // ← your sheet ID
 const CSV_URL    = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/pub?output=csv`;
 
-document.getElementById('loginForm').addEventListener('submit', async e => {
+document.getElementById('doLogin').addEventListener('click', async () => {
   e.preventDefault();
   const user = e.target.login_username.value.trim();
   const pass = e.target.login_password.value.trim();
@@ -61,5 +61,6 @@ document.getElementById('loginForm').addEventListener('submit', async e => {
 </script>
 </body>
 </html>
+
 
 
