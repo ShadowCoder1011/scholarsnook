@@ -16,7 +16,7 @@
   <section class="card">
     <h2>Member Login</h2>
 
-    <form id="loginForm">
+    <form id="loginForm" onsubmit="return false;">
       <div class="input-row">
         <label for="loginUsername">Username</label>
         <input name="login_username" id="loginUsername" type="text" required />
@@ -61,4 +61,5 @@ document.getElementById('loginForm').addEventListener('submit', async e => {
 </script>
 </body>
 </html>
+
 
