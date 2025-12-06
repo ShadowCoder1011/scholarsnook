@@ -45,7 +45,7 @@ document.getElementById('loginForm').addEventListener('submit', async e => {
   const pass = e.target.login_password.value.trim();
   const res  = await fetch(CSV_URL);
   const txt  = await res.text();
-  const rows = txt.split('\n').slice(1);           // skip header
+  const rows = txt.split('\n').slice(1);
   let ok = false;
   for (const raw of rows) {
     const [,,u,p] = raw.split(',');
@@ -61,3 +61,4 @@ document.getElementById('loginForm').addEventListener('submit', async e => {
 </script>
 </body>
 </html>
+
