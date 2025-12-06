@@ -47,7 +47,8 @@ document.getElementById('doLogin').addEventListener('click', async () => {
     const rows = txt.split('\n').slice(1);
     let ok = false;
     for (const raw of rows) {
-      const [,,u,p] = raw.split(',');
+      const cols = raw.split(',').map(c => c.replace(/^"(.*)"$/, '$1').trim());
+      const [,,u,p] = cols;
       if (u === user && p === pass) { ok = true; break; }
     }
     if (ok) {
@@ -63,4 +64,5 @@ document.getElementById('doLogin').addEventListener('click', async () => {
 </script>
 </body>
 </html>
+
 
