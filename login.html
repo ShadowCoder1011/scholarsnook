@@ -16,51 +16,52 @@
   <section class="card">
     <h2>Member Login</h2>
 
-    <form id="loginForm" onsubmit="return false;">
-      <div class="input-row">
-        <label for="loginUsername">Username</label>
-        <input name="login_username" id="loginUsername" type="text" required />
-      </div>
-      <div class="input-row">
-        <label for="loginPassword">Password</label>
-        <input name="login_password" id="loginPassword" type="password" required />
-      </div>
-      <div class="actions">
-        <button type="button" id="doLogin">Submit</button>
-        <a href="signup.html">New here? Sign up</a>
-      </div>
-    </form>
+    <div class="input-row">
+      <label for="loginUsername">Username</label>
+      <input id="loginUsername" type="text" required />
+    </div>
+    <div class="input-row">
+      <label for="loginPassword">Password</label>
+      <input id="loginPassword" type="password" required />
+    </div>
+    <div class="actions">
+      <button type="button" id="doLogin">Submit</button>
+      <a href="signup.html">New here? Sign up</a>
+    </div>
     <p id="msg" class="muted" style="color:red;margin-top:8px;"></p>
   </section>
 </main>
 
 <script>
-// CONFIG – fill in your sheet details
-const SHEET_ID   = '1BxiY6lRCKikGYLNAc0g8i9z5z8VfG7lKZc6PQrN9xqw';   // ← your sheet ID
-const CSV_URL    = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/pub?output=csv`;
+/* ----------  CONFIG  ---------- */
+const SHEET_ID = '1BxiY6lRCKikGYLNAc0g8i9z5z8VfG7lKZc6PQrN9xqw'; // ← your sheet ID
+const CSV_URL  = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/pub?output=csv`;
 
+/* ----------  LOGIN LOGIC  ---------- */
 document.getElementById('doLogin').addEventListener('click', async () => {
-  e.preventDefault();
-  const user = e.target.login_username.value.trim();
-  const pass = e.target.login_password.value.trim();
-  const res  = await fetch(CSV_URL);
-  const txt  = await res.text();
-  const rows = txt.split('\n').slice(1);
-  let ok = false;
-  for (const raw of rows) {
-    const [,,u,p] = raw.split(',');
-    if (u === user && p === pass) { ok = true; break; }
-  }
-  if (ok) {
-    sessionStorage.setItem('user', user);
-    location.href = 'dashboard.html';
-  } else {
-    document.getElementById('msg').textContent = 'Invalid username or password.';
+  const user = document.getElementById('loginUsername').value.trim();
+  const pass = document.getElementById('loginPassword').value.trim();
+  if (!user || !pass) return;
+
+  try {
+    const res  = await fetch(CSV_URL);
+    const txt  = await res.text();
+    const rows = txt.split('\n').slice(1);          // skip header row
+    let ok = false;
+    for (const raw of rows) {
+      const [,,u,p] = raw.split(',');
+      if (u === user && p === pass) { ok = true; break; }
+    }
+    if (ok) {
+      sessionStorage.setItem('user', user);
+      location.href = 'dashboard.html';
+    } else {
+      document.getElementById('msg').textContent = 'Invalid username or password.';
+    }
+  } catch (e) {
+    document.getElementById('msg').textContent = 'Network error – try again.';
   }
 });
 </script>
 </body>
 </html>
-
-
-
