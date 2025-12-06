@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ScholarsNook — Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .hero{
+      margin: 0 -20px 20px -20px;
+      padding: 60px 20px;
+      text-align: center;
+      background: linear-gradient(135deg, var(--ths-green) 0%, var(--ths-violet) 100%);
+      color: #fff;
+    }
+    .hero h1{ margin: 0; font-size: 2.4rem; }
+    .hero p{ margin: 8px 0 0 0; opacity: .9; }
+    .leaderboard{ margin: 12px 0; padding-left: 24px; font-size: 1.1rem; }
+    .leaderboard li{ margin: 8px 0; color: var(--ths-violet); }
+    .leaderboard .points{ font-weight: 700; color: var(--ths-green); }
+  </style>
+</head>
+<body>
+<main class="container">
+  <header class="brand">
+    <h1>ScholarsNook</h1>
+    <p class="tag">Track your points • Flex your wins</p>
+  </header>
+
+  <section class="hero">
+    <h1>Welcome, <span id="userName"></span>!</h1>
+    <p>Your current balance</p>
+    <div class="points" style="font-size: 3rem; margin-top: 12px;">
+      <span id="userPoints">0</span> pts
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Leaderboard – Top 3</h2>
+    <ol id="top3" class="leaderboard"></ol>
+    <p class="muted">More features coming soon…</p>
+    <div class="actions">
+      <a href="login.html" class="alt-btn" style="background: var(--muted);">Log out</a>
+    </div>
+  </section>
+</main>
+
+<script>
+const SHEET_ID = '1BxiY6lRCKikGYLNAc0g8i9z5z8VfG7lKZc6PQrN9xqw';
+const CSV_URL  = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/pub?output=csv`;
+
+const user = sessionStorage.getItem('user');
+if (!user) location.href = 'login.html';
+
+(async () => {
+  const res = await fetch(CSV_URL);
+  const txt = await res.text();
+  const rows = txt.split('\n').slice(1);            // skip header
+  let myPts = 0;
+  const board = [];
+  for (const raw of rows) {
+    const [name,,u,,pts] = raw.split(',');
+    if (u === user) myPts = parseInt(pts) || 0;
+    if (name && pts) board.push({ name, pts: parseInt(pts) || 0 });
+  }
+  document.getElementById('userName').textContent = user;
+  document.getElementById('userPoints').textContent = myPts.toLocaleString();
+
+  // top-3
+  board.sort((a, b) => b.pts - a.pts);
+  const html = board.slice(0, 3).map(p =>
+    `<li>${p.name} – <span class="points">${p.pts.toLocaleString()} pts</span></li>`
+  ).join('');
+  document.getElementById('top3').innerHTML = html;
+})();
+</script>
+</body>
+</html>
