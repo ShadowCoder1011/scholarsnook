@@ -55,7 +55,7 @@ document.getElementById('signupForm').addEventListener('submit', async e => {
     f.department.value.trim(),
     f.reg_username.value.trim(),
     f.signupPassword.value.trim(),
-    parseInt(f.initPoints.value) || 0
+    parseInt(f.initPoints?.value || 0)
   ];
 
   try {
@@ -82,6 +82,7 @@ document.getElementById('signupForm').addEventListener('submit', async e => {
 </script>
 </body>
 </html>
+
 
 
 
