@@ -74,6 +74,7 @@ document.getElementById('signupForm').addEventListener('submit', async e => {
       document.getElementById('msg').textContent = err.error.message || 'Failed to register.';
     }
   } catch (e) {
+    console.error(e);
     document.getElementById('msg').style.color = 'red';
     document.getElementById('msg').textContent = 'Network error – check console.';
     console.error(e);
@@ -82,6 +83,7 @@ document.getElementById('signupForm').addEventListener('submit', async e => {
 </script>
 </body>
 </html>
+
 
 
 
