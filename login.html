@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ScholarsNook — Member Login</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<main class="container">
+  <header class="brand">
+    <h1>ScholarsNook</h1>
+    <p class="tag">Track your points • Flex your wins</p>
+  </header>
+
+  <section class="card">
+    <h2>Member Login</h2>
+
+    <form id="loginForm">
+      <div class="input-row">
+        <label for="loginUsername">Username</label>
+        <input name="login_username" id="loginUsername" type="text" required />
+      </div>
+      <div class="input-row">
+        <label for="loginPassword">Password</label>
+        <input name="login_password" id="loginPassword" type="password" required />
+      </div>
+      <div class="actions">
+        <button type="submit">Submit</button>
+        <a href="signup.html">New here? Sign up</a>
+      </div>
+    </form>
+    <p id="msg" class="muted" style="color:red;margin-top:8px;"></p>
+  </section>
+</main>
+
+<script>
+// CONFIG – fill in your sheet details
+const SHEET_ID   = '1BxiY6lRCKikGYLNAc0g8i9z5z8VfG7lKZc6PQrN9xqw';   // ← your sheet ID
+const CSV_URL    = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/pub?output=csv`;
+
+document.getElementById('loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const user = e.target.login_username.value.trim();
+  const pass = e.target.login_password.value.trim();
+  const res  = await fetch(CSV_URL);
+  const txt  = await res.text();
+  const rows = txt.split('\n').slice(1);           // skip header
+  let ok = false;
+  for (const raw of rows) {
+    const [,,u,p] = raw.split(',');
+    if (u === user && p === pass) { ok = true; break; }
+  }
+  if (ok) {
+    sessionStorage.setItem('user', user);
+    location.href = 'dashboard.html';
+  } else {
+    document.getElementById('msg').textContent = 'Invalid username or password.';
+  }
+});
+</script>
+</body>
+</html>
