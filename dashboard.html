@@ -59,6 +59,7 @@ if (!user) location.href = 'login.html';
   let myPts = 0;
   const board = [];
   for (const raw of rows) {
+    console.log('RAW:', raw, 'COLS:', cols);
     const cols = raw.split(',').map(c => c.replace(/^"(.*)"$/, '$1').trim());
     const [,,,u,,pts] = cols;          // username (3)  &  points (5)
     const [,name]      = cols;         // name (1)
@@ -78,4 +79,5 @@ if (!user) location.href = 'login.html';
 </script>
 </body>
 </html>
+
 
