@@ -59,7 +59,7 @@ if (!user) location.href = 'login.html';
   let myPts = 0;
   const board = [];
   for (const raw of rows) {
-    const [name,,u,,pts] = raw.split(',');
+    const [,name,,,pts] = raw.split(',').map(c => c.replace(/^"(.*)"$/, '$1').trim());
     if (u === user) myPts = parseInt(pts) || 0;
     if (name && pts) board.push({ name, pts: parseInt(pts) || 0 });
   }
@@ -76,5 +76,6 @@ if (!user) location.href = 'login.html';
 </script>
 </body>
 </html>
+
 
 
