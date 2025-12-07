@@ -61,7 +61,6 @@ document.getElementById('signupForm').addEventListener('submit', async e => {
   try {
     const resp = await fetch(ENDPOINT, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ values: [body] })
     });
     if (resp.ok) {
@@ -83,6 +82,7 @@ document.getElementById('signupForm').addEventListener('submit', async e => {
 </script>
 </body>
 </html>
+
 
 
 
