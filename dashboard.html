@@ -59,8 +59,10 @@ if (!user) location.href = 'login.html';
   let myPts = 0;
   const board = [];
   for (const raw of rows) {
-    const [,name,,,pts] = raw.split(',').map(c => c.replace(/^"(.*)"$/, '$1').trim());
+    const cols = raw.split(',').map(c => c.replace(/^"(.*)"$/, '$1').trim());
+    const [,,,u,,pts] = cols;                       // 0=Timestamp,1=Name,2=Department,3=Username,4=Password,5=Points
     if (u === user) myPts = parseInt(pts) || 0;
+    const [,name,,,pts] = cols;                     // name = col 1
     if (name && pts) board.push({ name, pts: parseInt(pts) || 0 });
   }
   document.getElementById('userName').textContent = user;
@@ -76,6 +78,3 @@ if (!user) location.href = 'login.html';
 </script>
 </body>
 </html>
-
-
-
