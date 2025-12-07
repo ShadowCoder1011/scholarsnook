@@ -62,6 +62,7 @@ document.getElementById('signupForm').addEventListener('submit', async e => {
     const resp = await fetch(ENDPOINT, {
       method: 'POST',
       body: JSON.stringify({ values: [body] })
+      // ← no headers at all
     });
     if (resp.ok) {
       document.getElementById('msg').style.color = 'green';
@@ -82,6 +83,7 @@ document.getElementById('signupForm').addEventListener('submit', async e => {
 </script>
 </body>
 </html>
+
 
 
 
