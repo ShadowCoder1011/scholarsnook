@@ -55,11 +55,11 @@
     const txt = await res.text();
     const rows = txt.split('\n').slice(1);
     const now = new Date();
-    const filtered = rows
+    const html = rows
       .map(r => r.split(',').map(c => c.replace(/^"(.*)"$/, '$1').trim()))
-      .filter(([, , , , date]) => date && date.includes('/'))   // ← must exist and contain "/"
-      .filter(([, , , , date]) => {
-        const [d, m, y] = date.split('/');
+      .filter(([, , , date]) => date && date.includes('/'))
+      .filter(([, , , date]) => {
+        const [d, m, y] = date.split('/');   // dd/mm/yyyy → yyyy-mm-dd
         return new Date(`${y}-${m}-${d}`) >= now;
       });
     const html = filtered
@@ -109,6 +109,7 @@ if (!user) location.href = 'login.html';
 </script>
 </body>
 </html>
+
 
 
 
