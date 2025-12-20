@@ -60,7 +60,7 @@
       .filter(([, , , date]) => date && date.includes('/'))   // must exist and contain "/"
       .filter(([, , , date]) => {
       const [d, m, y] = date.split('/');
-      .return new Date(`${y}-${m}-${d}`) >= new Date().setHours(0,0,0,0);   // today or future
+      .return new Date(`${d}-${m}-${y}`) >= new Date().setHours(0,0,0,0);   // today or future
       });
     const html = filtered
       .slice(0, 5)
@@ -109,6 +109,7 @@ if (!user) location.href = 'login.html';
 </script>
 </body>
 </html>
+
 
 
 
