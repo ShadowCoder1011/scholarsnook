@@ -49,13 +49,12 @@
   <ul id="cal"></ul>
 
   <script>
-  const CAL_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vStp6kZ6fCNHYDHxJlQjPl84GM-V83PsQQzEFaEpRQza7GEGctPoFZ7ngw0mgMn8Do-ItW5JGfJCjcs/pub?output=csv';
-
   (async () => {
     const res = await fetch(CSV_URL);
     const txt = await res.text();
     const rows = txt.split('\n').slice(1);
-    console.log('CAL-RAW:', rows[0], 'CAL-COLS:', rows[0]?.split(','));   // ← debug
+    console.log('TXT length:', txt.length);
+    console.log('First row:', rows[0], 'Split:', rows[0]?.split(','));
 
     const now = new Date();
     const html = rows
@@ -107,6 +106,7 @@ if (!user) location.href = 'login.html';
 </script>
 </body>
 </html>
+
 
 
 
