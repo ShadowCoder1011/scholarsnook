@@ -50,7 +50,8 @@
 
   <script>
   (async () => {
-    const res = await fetch(CSV_URL);
+    const CAL_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vStp6kZ6fCNHYDHxJlQjPl84GM-V83PsQQzEFaEpRQza7GEGctPoFZ7ngw0mgMn8Do-ItW5JGfJCjcs/pub?output=csv';
+    const res = await fetch(CAL_CSV_URL);
     const txt = await res.text();
     const rows = txt.split('\n').slice(1);
     const now = new Date();
@@ -60,7 +61,7 @@
         const [d, m, y] = date.split('/');
         return new Date(`${y}-${m}-${d}`) >= now;
       });
-    console.log('Filtered rows:', filtered.length, filtered[0]); // ← debug
+    console.log('Filtered rows:', filtered.length, filtered[0]); // debug
     const html = filtered
       .slice(0, 5)
       .map(([time, title, , , date]) =>
@@ -108,6 +109,7 @@ if (!user) location.href = 'login.html';
 </script>
 </body>
 </html>
+
 
 
 
