@@ -44,7 +44,7 @@
     </div>
   </section>
 
-  <section class="calendar">
+ <section class="calendar">
   <h2>Up-coming Events</h2>
   <ul id="cal"></ul>
 
@@ -57,12 +57,11 @@
     const now = new Date();
     const filtered = rows
       .map(r => r.split(',').map(c => c.replace(/^"(.*)"$/, '$1').trim()))
-      .filter(([, , , date]) => date && date.includes('/'))
+      .filter(([, , , date]) => date && date.includes('/'))   // must exist and contain "/"
       .filter(([, , , date]) => {
         const [d, m, y] = date.split('/');
         return new Date(`${y}-${m}-${d}`) >= now;
       });
-    console.log('Filtered count:', filtered.length, 'First:', filtered[0]); // ← debug
     const html = filtered
       .slice(0, 5)
       .map(([time, title, , , date]) =>
@@ -110,6 +109,7 @@ if (!user) location.href = 'login.html';
 </script>
 </body>
 </html>
+
 
 
 
