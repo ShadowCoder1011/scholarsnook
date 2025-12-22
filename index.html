@@ -5,7 +5,38 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ScholarsNook — Member Login</title>
   <link rel="stylesheet" href="styles.css" />
+
+  <!--  RESPONSIVE BACKGROUNDS  -->
+  <style>
+    /* ==========  DESKTOP  ========== */
+    @media (min-width: 768px) {
+      body {
+        background-image: url('bg-desktop.jpg');   /* ← your desktop wallpaper */
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+      }
+    }
+
+    /* ==========  MOBILE  ========== */
+    @media (max-width: 767px) {
+      body {
+        background-image: url('bg-mobile.jpg');    /* ← your mobile wallpaper */
+        background-size: cover;
+        background-position: center;
+      }
+    }
+
+    /* ==========  SMALL TWEAKS  ========== */
+    @media (max-width: 480px) {
+      .container { padding: 10px; }
+      .card { padding: 16px; }
+      .hero { padding: 40px 20px; }
+      button, .actions a { width: 100%; margin-bottom: 8px; }
+    }
+  </style>
 </head>
+
 <body>
 <main class="container">
   <header class="brand">
@@ -33,7 +64,7 @@
 </main>
 
 <script>
-const SHEET_ID = '1zCRAV4a2mGVXpq3wmrUqpPSaBOVcxKSK-8Rhk31gI4g'; // ← your sheet ID
+const SHEET_ID = '1zCRAV4a2mGVXpq3wmrUqpPSaBOVcxKSK-8Rhk31gI4g';
 const CSV_URL  = `https://docs.google.com/spreadsheets/d/e/2PACX-1vTQsu-SF_y4VrOaNv1HL-JUZuZW8cyB0auP0yoaL3CsLRGns27IIzO9cT1kvjvBa4wk2FUOS40E3Zbq/pub?output=csv`;
 
 document.getElementById('doLogin').addEventListener('click', async () => {
@@ -48,7 +79,6 @@ document.getElementById('doLogin').addEventListener('click', async () => {
     let ok = false;
     for (const raw of rows) {
       const cols = raw.split(',').map(c => c.replace(/^"(.*)"$/, '$1').trim());
-      // new order: 0=Timestamp, 1=Name, 2=Department, 3=Username, 4=Password, 5=Points
       const [,,,u,p] = cols;
       if (u === user && p === pass) { ok = true; break; }
     }
@@ -65,8 +95,3 @@ document.getElementById('doLogin').addEventListener('click', async () => {
 </script>
 </body>
 </html>
-
-
-
-
-
