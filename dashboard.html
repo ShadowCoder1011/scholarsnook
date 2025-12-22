@@ -5,26 +5,75 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ScholarsNook — Dashboard</title>
   <link rel="stylesheet" href="styles.css" />
+
+  <!--  RESPONSIVE BACKGROUNDS  -->
   <style>
-    .hero{
-      margin: 0 -20px 20px -20px;
-      padding: 60px 20px;
-      text-align: center;
-      background: linear-gradient(135deg, var(--ths-green) 0%, var(--ths-violet) 100%);
-      color: #fff;
+    @media (min-width: 768px) {
+      body {
+        background-image: url('bg-desktop.jpg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+      }
     }
-    .hero h1{ margin: 0; font-size: 2.4rem; }
-    .hero p{ margin: 8px 0 0 0; opacity: .9; }
-    .leaderboard{ margin: 12px 0; padding-left: 24px; font-size: 1.1rem; }
-    .leaderboard li{ margin: 8px 0; color: var(--ths-violet); }
-    .leaderboard .points{ font-weight: 700; color: var(--ths-green); }
+    @media (max-width: 767px) {
+      body {
+        background-image: url('bg-mobile.jpg');
+        background-size: cover;
+        background-position: center;
+      }
+    }
+    @media (max-width: 480px) {
+      .container { padding: 10px; }
+      .card { padding: 16px; }
+      .hero { padding: 40px 20px; }
+      button, .actions a { width: 100%; margin-bottom: 8px; }
+    }
+
+    /*  OPTIONAL LOGO BAR (one-liner)  */
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      white-space: nowrap;
+    }
+    .brand img {
+      height: 32px;               /* your logo */
+    }
+    .brand span {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .brand h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+    .brand .tag {
+      margin: 0;
+      font-size: 0.9rem;
+    }
+
+    /*  SEMI-TRANSPARENT CARD  */
+    .card {
+      background: rgba(255, 255, 255, 0.25); /* 25 % white frost */
+      padding: 18px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+      margin-top: 16px;
+    }
   </style>
 </head>
+
 <body>
 <main class="container">
   <header class="brand">
-    <h1>ScholarsNook</h1>
-    <p class="tag">Track your points • Flex your wins</p>
+    <!--  DROP your logo here  -->
+    <img src="logo.png" alt="ScholarsNook logo">
+    <span>
+      <h1>ScholarsNook</h1>
+      <p class="tag">Track your points • Flex your wins</p>
+    </span>
   </header>
 
   <section class="hero">
@@ -43,35 +92,6 @@
       <a href="login.html" class="alt-btn" style="background: var(--muted);">Log out</a>
     </div>
   </section>
-
- <section class="calendar">
-  <h2>Up-coming Events</h2>
-  <ul id="cal"></ul>
-
-  <script>
-  (async () => {
-    const CAL_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vStp6kZ6fCNHYDHxJlQjPl84GM-V83PsQQzEFaEpRQza7GEGctPoFZ7ngw0mgMn8Do-ItW5JGfJCjcs/pub?output=csv';
-    const res = await fetch(CAL_CSV_URL);
-    const txt = await res.text();
-    const rows = txt.split('\n').slice(1);
-    const now = new Date();
-    const html = rows
-      .map(r => r.split(',').map(c => c.replace(/^"(.*)"$/, '$1').trim()))
-      .filter(([, , , , date]) => date && date.includes('/'))   // must exist and contain "/"
-      .filter(([, , , , date]) => {
-        const datePart = date.split(' ')[0];            // remove time
-        const [d, m, y] = datePart.split('/');
-        return new Date(`${y}-${m}-${d}`) >= now;
-      });
-    const html = filtered
-      .slice(0, 5)
-      .map(([time, title, , , date]) =>
-        `<li><strong>${title}</strong> – ${date.split(' ')[0]} ${time}<br></li>`
-      ).join('');
-    document.getElementById('cal').innerHTML = html || '<li>No upcoming events.</li>';
-  })();
-  </script>
-</section>
 </main>
 
 <script>
@@ -84,23 +104,20 @@ if (!user) location.href = 'login.html';
 (async () => {
   const res = await fetch(CSV_URL);
   const txt = await res.text();
-  const rows = txt.split('\n').slice(1);            // skip header
+  const rows = txt.split('\n').slice(1);
   let myPts = 0;
   const board = [];
   for (const raw of rows) {
-    console.log('ROW:', raw, 'COLS:', raw.split(','));
     const cols = raw.split(',').map(c => c.replace(/^"(.*)"$/, '$1').trim());
     const [,,,u]      = cols;          // username (col 3)
     const [,name]     = cols;          // name      (col 1)
     const pts         = parseInt(cols[5]) || 0; // points (col 5)
-
     if (u === user) myPts = pts;
     if (name && pts) board.push({ name, pts });
   }
   document.getElementById('userName').textContent = user;
   document.getElementById('userPoints').textContent = myPts.toLocaleString();
 
-  // top-3
   board.sort((a, b) => b.pts - a.pts);
   const html = board.slice(0, 3).map(p =>
     `<li>${p.name} – <span class="points">${p.pts.toLocaleString()} pts</span></li>`
@@ -110,19 +127,3 @@ if (!user) location.href = 'login.html';
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
